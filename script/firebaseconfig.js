@@ -1,3 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getDatabase, ref, set, push, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyASUiN6n-p9_B9Ruox6l3ZmW6qbQx3kRgY",
+    authDomain: "flaskpost-8adcc.firebaseapp.com",
+    projectId: "flaskpost-8adcc",
+    storageBucket: "flaskpost-8adcc.firebasestorage.app",
+    messagingSenderId: "75468522109",
+    appId: "1:75468522109:web:6a69184654f1cea857e714"
+  };
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 const baseUrl = "https://flaskpost-8eeb9-default-rtdb.europe-west1.firebasedatabase.app/users";
 
 //  Hämta alla users 
@@ -57,9 +72,10 @@ const messageInput = document.getElementById("messageInput");
 
 postBtn.addEventListener("click", async () => {
   const userObj = {
+    owner: auth.currentUser ? auth.currentUser.uid : "anonymous",
     name: usernameInput.value.trim(),
     message: messageInput.value.trim()
-  };
+  }; 
 
   if (!userObj.name || !userObj.message) {
     alert("Please enter both username and message!");
@@ -87,3 +103,33 @@ postBtn.addEventListener("click", async () => {
 })();
 
 //har mer att fixa at, skall fixa att undefined inte visas om user redan finns i firebase manuellt.
+
+
+// Logga in med google genom firebase / Henrik
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    console.log("User is signed in with UID:", uid);
+  } else {
+    console.log("No user is signed in");
+  }
+});
+
+signInWithPopup(auth, new GoogleAuthProvider());
+
+
+// Event listener för login-knappen, den finns inte ännu i HTML
+const loginBtn = document.getElementById("loginBtn");
+loginBtn.addEventListener("click", () => {
+  signInWithPopup(auth, new GoogleAuthProvider())
+    .then((result) => {
+      const user = result.user;
+      console.log("User signed in:", user);
+    })
+    .catch((error) => {
+      console.error("Error signing in:", error);
+    });
+});
+
