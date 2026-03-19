@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getDatabase, ref, set, push, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyASUiN6n-p9_B9Ruox6l3ZmW6qbQx3kRgY",
     authDomain: "flaskpost-8adcc.firebaseapp.com",
@@ -9,7 +10,7 @@ const firebaseConfig = {
     messagingSenderId: "75468522109",
     appId: "1:75468522109:web:6a69184654f1cea857e714"
   };
-
+  
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -51,17 +52,49 @@ export async function postUser(user) {
   }
 }
 
+//  Ta bort en user/message baserat på nyckel
+export async function deleteUser(userKey) {
+  const url = `${baseUrl}/${userKey}.json`;
+  try {
+    const res = await fetch(url, {
+      method: "DELETE"
+    });
+    if (!res.ok) throw new Error(`Failed to delete user: ${res.status}`);
+    return true;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return false;
+  }
+}
+
 //  Visa users/messages i DOM 
 export function displayAllUsers(users) {
   const messagesList = document.getElementById("messagesList");
   messagesList.innerHTML = "";
   if (!users) return;
 
-  Object.values(users).forEach(user => {
+  Object.entries(users).forEach(([key, user]) => {
     const div = document.createElement("div");
     div.classList.add("message");
-div.textContent = `${user.name}: ${user.message || ""}`;
- messagesList.appendChild(div);
+    div.innerHTML = `
+      <span>${user.name}: ${user.message || "Inget meddelande"}</span>
+      <button class="delete-btn" data-key="${key}">🗑️</button>
+    `;
+    messagesList.appendChild(div);
+  });
+
+  // Lägg till event listeners för delete-knappar
+  document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const key = e.target.dataset.key;
+      const success = await deleteUser(key);
+      if (success) {
+        const updatedUsers = await getAllUsers();
+        displayAllUsers(updatedUsers);
+      } else {
+        alert("Misslyckades att ta bort meddelandet");
+      }
+    });
   });
 }
 
@@ -80,7 +113,7 @@ postBtn.addEventListener("click", async () => {
   if (!userObj.name || !userObj.message) {
     alert("Please enter both username and message!");
     return;
-  }
+  } 
 
   const response = await postUser(userObj);
 
@@ -133,3 +166,11 @@ loginBtn.addEventListener("click", () => {
     });
 });
 
+// i github.com på din fork, synca med OG repo
+// i github desktop sync så att din lokala pc pullar atta commisten
+//gå sedan till din branch
+// i branch tabben finns det en option att merga vilket är main -> branch
+//då har du alla ändringar + din feature i samma branch
+
+//SLUTET
+//i branch tabben finns den slutligen en pullrequest knapp som skickar den feature branch -> OGs main
