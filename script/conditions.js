@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const declineBtn = document.getElementById('declineBtn');
   const agreeCheckbox = document.getElementById('agreeCheckbox');
 
-  // Show popup on load
+  
   popup.style.display = 'flex';
 
   // Enable accept button only if checkbox is checked
@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     acceptBtn.disabled = !this.checked;
   });
 
-  // Accept: hide popup
+  
   acceptBtn.addEventListener('click', function() {
     popup.style.display = 'none';
   });
 
-  // Decline: redirect to Google
+  
   declineBtn.addEventListener('click', function() {
     window.location.href = 'https://www.google.com';
   });
