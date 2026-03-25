@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Clear old localStorage to show modal (for testing/resetting)
   // Comment this line out after you've verified the modal works
-  localStorage.removeItem(TERMS_ACCEPTED_KEY);
+//   localStorage.removeItem(TERMS_ACCEPTED_KEY);
 
   // Check if user has already accepted terms
   function hasUserAcceptedTerms() {
