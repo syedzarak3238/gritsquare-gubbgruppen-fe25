@@ -13,7 +13,25 @@ export function sortUsersByName(users) {
     return 0;
   });
 }
+function showFirework() {
+  const container = document.getElementById("fireworkContainer");
+  if (!container) return;
 
+  for (let i = 0; i < 8; i++) {
+    const firework = document.createElement("div");
+    firework.classList.add("firework");
+    firework.textContent = "🎉";
+
+    firework.style.left = `${Math.random() * 90}%`;
+    firework.style.top = `${Math.random() * 80}%`;
+
+    container.appendChild(firework);
+
+    setTimeout(() => {
+      firework.remove();
+    }, 1000);
+  }
+}
 export function displayAllUsers(users, sortFunction = sortUsersByCreatedAt) {
   const messagesList = document.getElementById("messagesList");
   if (!messagesList) return;
@@ -56,6 +74,11 @@ let likes = 0;
 likeBtn.addEventListener("click", () => {
   likes++;
   likeBtn.textContent = `❤️ ${likes}`;
+
+if (likes % 10 === 0) {
+  showFirework();
+}
+  
 });
 
     div.addEventListener("dragstart", (e) => {
