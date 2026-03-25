@@ -1,11 +1,12 @@
 import { auth } from "./firebaseInit.js";
 import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-export function setupAuth({ displayAllUsers }) {
+export function setupAuth({ onAuthUserChange } = {}) {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const logoutItem = document.getElementById("logoutItem");
   const usernameInput = document.getElementById("usernameInput");
+  let previousUser;
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -23,6 +24,12 @@ export function setupAuth({ displayAllUsers }) {
       usernameInput.value = "";
       usernameInput.closest(".col-12.col-md-3").style.display = "";
     }
+
+    const isInitial = typeof previousUser === "undefined";
+    if (typeof onAuthUserChange === "function") {
+      onAuthUserChange({ user, previousUser: previousUser || null, isInitial });
+    }
+    previousUser = user;
   });
 
   logoutBtn.addEventListener("click", () => {

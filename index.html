@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/jpeg" href="GCfavico.jpg">
   <title>Gubb Chat </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/trail.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="script/main.js" type="module" defer></script>
   <script src="script/theme.js" defer></script>
   <script src="script/termsConditions.js" defer></script>
+  <script src="script/trail.js" defer></script>
   <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double:wght@100..900&display=swap" rel="stylesheet">
+  
 </head>
 <body>
   <!-- Terms and Conditions Modal -->
@@ -70,23 +74,31 @@
 
   <div class="bg-main">
     <div class="container">
-      <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <header class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 border-bottom">
+        <a href="index.html" class="d-flex align-items-center text-dark text-decoration-none">
           <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
           <span class="fs-2 bitcount-prop-double burnt-peach">Gubb Chat</span>
         </a>
 
-        <ul class="nav nav-pills align-items-center">
-          <li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
-          <li class="nav-item"><a href="contact.html" class="nav-link">Contact us</a></li>
-          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item ms-2" id="loginItem"><button id="loginBtn" class="btn btn-outline-secondary btn-sm">Sign in with Google</button></li>
-          <li class="nav-item ms-2" id="signedInItem" style="display:none"><span id="signedInLabel" class="navbar-text small"></span></li>
-          <li class="nav-item ms-2" id="logoutItem" style="display:none"><button id="logoutBtn" class="btn btn-outline-danger btn-sm">Sign out</button></li>
-          <li class="nav-item ms-2">
-            <button id="themeToggle" class="btn btn-burnt-peach btn-sm" type="button">Light mode</button>
-          </li>
-        </ul>
+        <button class="burger-btn d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+        </button>
+
+        <div class="collapse w-100 d-md-flex justify-content-end" id="navMenu">
+          <ul class="nav nav-pills align-items-md-center flex-column flex-md-row align-items-start mt-2 mt-md-0">
+            <li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact us</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item ms-md-2" id="loginItem"><button id="loginBtn" class="btn btn-outline-secondary btn-sm">Sign in with Google</button></li>
+            <li class="nav-item ms-md-2" id="signedInItem" style="display:none"><span id="signedInLabel" class="navbar-text small"></span></li>
+            <li class="nav-item ms-md-2" id="logoutItem" style="display:none"><button id="logoutBtn" class="btn btn-outline-danger btn-sm">Sign out</button></li>
+            <li class="nav-item ms-md-2">
+              <button id="themeToggle" class="btn btn-burnt-peach btn-sm" type="button">Light mode</button>
+            </li>
+          </ul>
+        </div>
       </header>
     </div>
   </div>
@@ -105,16 +117,21 @@
       <div class="col-12 col-md-2 d-grid">
         <button id="postBtn" type="submit" class="btn btn-burnt-peach">Post</button>
       </div>
+      
     </form>
 
 <button id="sortTimeBtn">Sort by Time</button>
 <button id="sortNameBtn">Sort by Name</button>
+<button id="sortFavoritesBtn">Sort by Favorites</button>
 
 
     <div id="messagesList" class="messages list-group list-group-flush mb-3"></div>
   </div>
 
-  <div id="deleteZone">🗑️ Dra hit för att ta bort</div>
+  <div class="dropzones">
+    <div id="favoriteZone">⭐ Dra hit för favorit</div>
+    <div id="deleteZone">🗑️ Dra hit för att ta bort</div>
+  </div>
 
     <div class="container">
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -130,7 +147,8 @@
   </footer>
 </div>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-</body>
+<div id="fireworkContainer"></div>
+  </body>
 </html>
 
 
